@@ -1,7 +1,9 @@
 # Example of a quote output
+---
 {'author': 'Nisargadatta', 'quote': 'There is only one meditation - the rigorous refusal to harbor thoughts.'}
 
 # Example of a note output
+---
 <h3>Note Title: Meditation Technique</h3> <h1>Notes</h1>
 <ul><li>
 <h2>Meditation Steps:</h2>
