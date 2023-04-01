@@ -10,7 +10,8 @@ repo = "Vault"
 
 
 def get_api_response(path: str) -> dict:
-    # send a request
+    """Send request to Github repo to get the files from the requested root folder."""
+
     response = requests.get(
         f'https://api.github.com/repos/{owner}/{repo}/contents/{path}',
         headers={
@@ -23,6 +24,8 @@ def get_api_response(path: str) -> dict:
 
 
 def extract_files(path: dict) -> list[str]:
+    """Get the list of folders to further extract files and clean up the appearance of them."""
+
     clean_folder = []
     for item in path:
         folder = item['html_url'].split("main/")[1]
@@ -31,6 +34,8 @@ def extract_files(path: dict) -> list[str]:
 
 
 def create_clean_paths(path: dict) -> list[str]:
+    """If there is an .md file then it cleans up last part of the file for easier viewing. If it's a folder then it goes to extract_files() to get the clean list of folders."""
+
     clean_filepath = []
     for item in path:
         if ".md" in item['html_url']:
@@ -50,18 +55,21 @@ def create_clean_paths(path: dict) -> list[str]:
 
 
 def get_quote(path: dict) -> dict:
+    """Review the MD file, if a quote exists then it do some clean up and add all quotes to a dict to return."""
+
     quote_dict = {}
+
     for item in path:
         content = get_api_response(path=item)
         note = markdown.markdown(content.text)
 
         if '[!quote]' in note:
-            full_note = ''.join(re.findall(
+            filter_note = ''.join(re.findall(
                 r'!quote]*\s*((?:.|\n)*?)</p>', note))
-            clean = full_note.split('Quote by ')
-            notes = list(filter(None, [i.strip() for i in clean]))
+            clean_note = filter_note.split('Quote by ')
+            all_quotes = list(filter(None, [i.strip() for i in clean_note]))
 
-            for item in notes:
+            for item in all_quotes:
                 author = item.split('[[')[1].split(']]')[0]
                 quote = item.split(']]\n')[1]
                 quote_dict[author] = quote
@@ -70,6 +78,8 @@ def get_quote(path: dict) -> dict:
 
 
 def get_md_note(path: dict) -> dict:
+    """Randomly select a note url from the path, request the content of it, convert it to markdown, and clean up the note before returning it as the final product."""
+
     md_file = random.choice(path)
     md_file_content = get_api_response(path=md_file)
 
