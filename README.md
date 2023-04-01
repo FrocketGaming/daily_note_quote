@@ -1,3 +1,5 @@
+This code was created to parse through my ObisidanMD notes to find a random daily quote and daily note for email, using the Github API. 
+
 # Example of a quote output
 ---
 {'author': 'Nisargadatta', 'quote': 'There is only one meditation - the rigorous refusal to harbor thoughts.'}
