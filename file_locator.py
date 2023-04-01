@@ -4,10 +4,8 @@ import re
 import random
 import keyring
 
-# token = keyring.get_password('github', 'token')
-token = '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'
-# owner = keyring.get_password('github', 'username')
-owner = 'FrocketGaming'
+token = keyring.get_password('github', 'token')
+owner = keyring.get_password('github', 'username')
 repo = "Vault"
 
 
@@ -112,5 +110,3 @@ def get_content(path: str, quote: bool = False) -> str:
 
 quote = get_content(path='400 - Archive/300 - Literature Notes', quote=True)
 note = get_content(path='200 - Citadel', quote=False)
-print(quote)
-# print(note)
